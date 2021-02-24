@@ -31,8 +31,11 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult AddNewBrand(BrandData data)
+        public IHttpActionResult AddNewBrand([FromBody] BrandData data)
         {
+            if (data is null)
+                return BadRequest("Data is required !");
+
             if(BrandService.Instance.Exists(data.Name))
                 return BadRequest($"The brand {data.Name} already exists");
 
@@ -42,8 +45,11 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult UpdateBrand(int id, BrandData data)
+        public IHttpActionResult UpdateBrand(int id, [FromBody] BrandData data)
         {
+            if (data is null)
+                return BadRequest("Data is required !");
+
             if (BrandService.Instance.GetOne(id) is null)
                 return BadRequest($"The brand '{id}' does not exists");
 

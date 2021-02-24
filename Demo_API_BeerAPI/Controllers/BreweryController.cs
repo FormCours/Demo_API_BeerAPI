@@ -31,9 +31,12 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult AddNewBrewery(BreweryData data)
+        public IHttpActionResult AddNewBrewery([FromBody]BreweryData data)
         {
-            if(BreweryService.Instance.Exists(data.Name))
+            if (data is null)
+                return BadRequest("Data is required !");
+
+            if (BreweryService.Instance.Exists(data.Name))
                 return BadRequest($"The brewery {data.Name} does already exists");
 
             int newId = BreweryService.Instance.Add(data);
@@ -43,8 +46,11 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult UpdateBrewery(int id, BreweryData data)
+        public IHttpActionResult UpdateBrewery(int id, [FromBody]BreweryData data)
         {
+            if (data is null)
+                return BadRequest("Data is required !");
+
             if (BreweryService.Instance.GetOne(id) is null)
                 return BadRequest($"The brewery {id} does not exists");
 

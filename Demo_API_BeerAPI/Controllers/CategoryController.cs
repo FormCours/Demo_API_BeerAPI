@@ -33,8 +33,11 @@ namespace Demo_API_Intro.Controllers
 
 
         [HttpPost]
-        public IHttpActionResult AddCategory(CategoryData catData)
+        public IHttpActionResult AddCategory([FromBody]CategoryData catData)
         {
+            if (catData is null)
+                return BadRequest("Data is required !");
+
             int newId = CategoryService.Instance.Add(catData);
 
             return Json(CategoryService.Instance.GetOne(newId));
