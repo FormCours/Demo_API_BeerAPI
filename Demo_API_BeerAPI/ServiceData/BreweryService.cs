@@ -34,14 +34,17 @@ namespace Demo_API_Intro.ServiceData
 
         public Brewery GetOne(int id)
         {
-            Demo_API_BeerAPI.DAL.Entities.BreweryEntity b = breweryRepository.Get(id);
+            Demo_API_BeerAPI.DAL.Entities.BreweryEntity brewery = breweryRepository.Get(id);
+
+            if (brewery is null) 
+                return null;
 
             return new Brewery()
             {
-                Id = b.Id,
-                Name = b.Name,
-                Headquarter = b.Headquarter,
-                Country = b.Country
+                Id = brewery.Id,
+                Name = brewery.Name,
+                Headquarter = brewery.Headquarter,
+                Country = brewery.Country
             };
         }
 

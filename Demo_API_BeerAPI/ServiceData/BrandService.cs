@@ -34,14 +34,17 @@ namespace Demo_API_Intro.ServiceData
 
         public Brand GetOne(int id)
         {
-            Demo_API_BeerAPI.DAL.Entities.BrandEntity b = brandRepository.Get(id);
+            Demo_API_BeerAPI.DAL.Entities.BrandEntity brand = brandRepository.Get(id);
+
+            if (brand is null)
+                return null;
 
             return new Brand()
             {
-                Id = b.Id,
-                Name = b.Name,
-                Country = b.Country,
-                CreationYear = b.CreationYear
+                Id = brand.Id,
+                Name = brand.Name,
+                Country = brand.Country,
+                CreationYear = brand.CreationYear
             };
         }
 

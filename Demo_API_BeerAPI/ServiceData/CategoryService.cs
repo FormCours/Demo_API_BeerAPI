@@ -24,21 +24,24 @@ namespace Demo_API_Intro.ServiceData
 
         public IEnumerable<Category> GetAll()
         {
-            return categoryRepository.GetAll().Select(b => new Category()
+            return categoryRepository.GetAll().Select(c => new Category()
             {
-                Id = b.Id,
-                Name = b.Name
+                Id = c.Id,
+                Name = c.Name
             });
         }
 
         public Category GetOne(int id)
         {
-            Demo_API_BeerAPI.DAL.Entities.CategoryEntity b = categoryRepository.Get(id);
+            Demo_API_BeerAPI.DAL.Entities.CategoryEntity category = categoryRepository.Get(id);
+
+            if (category is null)
+                return null;
 
             return new Category()
             {
-                Id = b.Id,
-                Name = b.Name
+                Id = category.Id,
+                Name = category.Name
             };
         }
 
