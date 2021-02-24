@@ -9,10 +9,9 @@ AS
 BEGIN  
    UPDATE [Beer] 
     SET [Name] = @Name,
-	   [Name] = @Name,
-	   [Id_Brewery] = @Id_Brewery,
-	   [Id_Brand] = @Id_Brand,
-	   [Color] = @Color,
-	   [Degree] = @Degree
+	    [Id_Brewery] = @Id_Brewery,
+	    [Id_Brand] = @Id_Brand,
+	    [Color] = @Color,
+	    [Degree] = @Degree
    WHERE [Id_Beer] = @Id_Beer
 END
