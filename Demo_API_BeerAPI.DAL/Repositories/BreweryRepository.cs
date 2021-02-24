@@ -37,8 +37,7 @@ namespace Demo_API_BeerAPI.DAL.Repositories
 
             try
             {
-                ConnectDB.ExecuteNonQuery(query);
-                return true;
+                return ConnectDB.ExecuteNonQuery(query) == 1;
             }
             catch (SqlException e)
             {

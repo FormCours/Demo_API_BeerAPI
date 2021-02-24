@@ -5,8 +5,6 @@
 	@Country VARCHAR(50) = NULL
 AS
 BEGIN
-   SET NOCOUNT ON;
-
    IF NOT EXISTS (SELECT * FROM [Brewery] WHERE Id_Brewery = @Id_Brewery)
 	  THROW 50042, 'Brewery not exists', 1;
 
