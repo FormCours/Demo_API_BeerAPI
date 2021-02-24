@@ -45,6 +45,13 @@ namespace Demo_API_Intro.ServiceData
             };
         }
 
+        public bool Exists(string breweryName)
+        {
+            IEnumerable<Brewery> breweries = GetAll();
+
+            return breweries.Any(b => b.Name.Trim().ToLower() == breweryName.Trim().ToLower());
+        }
+
         public int Add(BreweryData breweryData)
         {
             int newId = breweryRepository.Insert(new Demo_API_BeerAPI.DAL.Entities.BreweryEntity()

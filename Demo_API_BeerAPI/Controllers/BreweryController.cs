@@ -33,6 +33,9 @@ namespace Demo_API_Intro.Controllers
         [HttpPost]
         public IHttpActionResult AddNewBrewery(BreweryData data)
         {
+            if(BreweryService.Instance.Exists(data.Name))
+                return BadRequest($"The brewery {data.Name} does already exists");
+
             int newId = BreweryService.Instance.Add(data);
 
             Brewery brewery = BreweryService.Instance.GetOne(newId);
