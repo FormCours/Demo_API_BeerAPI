@@ -84,14 +84,17 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BeerController.cs" />
+    <Compile Include="Controllers\BreweryController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Beer.cs" />
+    <Compile Include="Models\Brewery.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceData\BeerService.cs" />
+    <Compile Include="ServiceData\BreweryService.cs" />
     <Compile Include="ServiceData\CategoryService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +108,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Demo_API_BeerAPI.DAL\Demo_API_BeerAPI.DAL.csproj">
+      <Project>{afe239b0-0859-4e8b-9345-0f50caf44c35}</Project>
+      <Name>Demo_API_BeerAPI.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
