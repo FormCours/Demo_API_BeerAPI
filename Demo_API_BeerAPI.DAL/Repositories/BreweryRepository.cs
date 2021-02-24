@@ -30,7 +30,7 @@ namespace Demo_API_BeerAPI.DAL.Repositories
         public override bool Update(int id, BreweryEntity entity)
         {
             QueryDB query = new QueryDB("UpdateBrewery", true);
-            query.AddParametre("@Id_Brewery", entity.Id);
+            query.AddParametre("@Id_Brewery", id);
             query.AddParametre("@Name", entity.Name);
             query.AddParametre("@Headquarter", entity.Headquarter);
             query.AddParametre("@Country", entity.Country);
