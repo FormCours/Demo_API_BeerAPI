@@ -1,4 +1,5 @@
-﻿using Demo_API_Intro.Models;
+﻿using Demo_API_BeerAPI.DAL.Repositories;
+using Demo_API_Intro.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,35 +14,59 @@ namespace Demo_API_Intro.ServiceData
         public static CategoryService Instance { get { return _Instance.Value; } }
         #endregion
 
+        private CategoryRepository categoryRepository;
 
         private CategoryService()
-        { }
+        {
+            categoryRepository = new CategoryRepository();
+        }
 
-        #region Crud
+
         public IEnumerable<Category> GetAll()
         {
-            throw new NotImplementedException();
+            return categoryRepository.GetAll().Select(b => new Category()
+            {
+                Id = b.Id,
+                Name = b.Name
+            });
         }
 
-        public Category Get(int id)
+        public Category GetOne(int id)
         {
-            throw new NotImplementedException();
+            Demo_API_BeerAPI.DAL.Entities.CategoryEntity b = categoryRepository.Get(id);
+
+            return new Category()
+            {
+                Id = b.Id,
+                Name = b.Name
+            };
         }
 
-        public Category Insert(Category category)
+        public int Add(CategoryData categoryData)
         {
-            throw new NotImplementedException();
+            int newId = categoryRepository.Insert(new Demo_API_BeerAPI.DAL.Entities.CategoryEntity()
+            {
+                Name = categoryData.Name
+            });
+
+            return newId;
         }
 
-        public bool Update(int id, Category category)
+        public bool Update(int id, Category categoryData)
         {
-            throw new NotImplementedException();
+            bool isUpdated = categoryRepository.Update(id, new Demo_API_BeerAPI.DAL.Entities.CategoryEntity()
+            {
+                Name = categoryData.Name
+            });
+
+            return isUpdated;
         }
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            bool isDeleted = categoryRepository.Delete(id);
+
+            return isDeleted;
         }
-        #endregion
     }
 }

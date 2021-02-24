@@ -14,35 +14,44 @@ namespace Demo_API_Intro.Controllers
         [HttpGet]
         public IHttpActionResult FindAll()
         {
-            throw new NotImplementedException();
+            IEnumerable<Category> categories = CategoryService.Instance.GetAll();
+
+            return Json(categories);
         }
 
 
         [HttpGet]
-        public IHttpActionResult Find(int id)
+        public IHttpActionResult FindCategoryById(int id)
         {
-            throw new NotImplementedException();
+            Category category = CategoryService.Instance.GetOne(id);
+
+            if (category is null)
+                return NotFound();
+
+            return Json(category);
         }
 
 
         [HttpPost]
-        public IHttpActionResult InsertCategory(Category category)
+        public IHttpActionResult AddCategory(CategoryData catData)
         {
-            throw new NotImplementedException();
-        }
+            int newId = CategoryService.Instance.Add(catData);
 
-
-        [HttpPut, HttpPatch]
-        public IHttpActionResult UpdateCategory(int id, Category category)
-        {
-            throw new NotImplementedException();
+            return Json(CategoryService.Instance.GetOne(newId));
         }
 
 
         [HttpDelete] 
         public IHttpActionResult RemoveCategory(int id)
         {
-            throw new NotImplementedException();
+            // TODO : Error if try to remove category linked with beer !
+
+            bool isDeleted = CategoryService.Instance.Delete(id);
+
+            if (isDeleted)
+                return Ok();
+
+            return BadRequest("An error occurred during the request");
         }
     }
 }
