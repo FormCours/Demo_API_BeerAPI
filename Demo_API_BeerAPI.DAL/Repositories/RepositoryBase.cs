@@ -28,6 +28,13 @@ namespace Demo_API_BeerAPI.DAL.Repositories
 
         protected abstract TEntity ConvertDataReaderToEntity(IDataReader reader);
 
+        public virtual int Count()
+        {
+            QueryDB query = new QueryDB($"SELECT COUNT(*) FROM [{TableName}]");
+
+            return (int)ConnectDB.ExecuteScalar(query);
+        }
+
         public virtual TEntity Get(TKey id)
         {
             QueryDB query = new QueryDB($"SELECT * FROM [{TableName}] WHERE [{IdName}] = @Id");

@@ -21,9 +21,25 @@ namespace Demo_API_Intro.ServiceData
             breweryRepository = new BreweryRepository();
         }
 
+        public int GetTotalBrewery()
+        {
+            return breweryRepository.Count();
+        }
+
         public IEnumerable<Brewery> GetAll()
         {
             return breweryRepository.GetAll().Select(b => new Brewery()
+            {
+                Id = b.Id,
+                Name = b.Name,
+                Headquarter = b.Headquarter,
+                Country = b.Country
+            });
+        }
+
+        public IEnumerable<Brewery> GetPagination(int offsert, int limit)
+        {
+            return breweryRepository.GetPagination(offsert, limit).Select(b => new Brewery()
             {
                 Id = b.Id,
                 Name = b.Name,

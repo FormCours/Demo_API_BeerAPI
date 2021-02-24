@@ -9,15 +9,39 @@ using System.Web.Http;
 
 namespace Demo_API_Intro.Controllers
 {
+    [RoutePrefix("api/Brewery")]
     public class BreweryController : ApiController
     {
         [HttpGet]
+        [Route("")]
         public IHttpActionResult FindAll()
         {
             IEnumerable<Brewery> breweries = BreweryService.Instance.GetAll();
+            int totalBrewery = BreweryService.Instance.GetTotalBrewery();
 
-            return Json(breweries);
+            // TODO Add Model for this
+            return Json(new
+            {
+                total = totalBrewery,
+                results = breweries
+            });
         }
+
+        [HttpGet]
+        [Route("page")]
+        public IHttpActionResult FindWithPagination([FromUri] int offset, [FromUri] int limit)
+        {
+            IEnumerable<Brewery> breweries = BreweryService.Instance.GetPagination(offset, limit);
+            int totalBrewery = BreweryService.Instance.GetTotalBrewery();
+
+            // TODO Add Model for this
+            return Json(new
+            {
+                total = totalBrewery,
+                results = breweries
+            });
+        }
+
 
         [HttpGet]
         public IHttpActionResult FindBreweryById(int id)
@@ -31,7 +55,7 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult AddNewBrewery([FromBody]BreweryData data)
+        public IHttpActionResult AddNewBrewery([FromBody] BreweryData data)
         {
             if (data is null)
                 return BadRequest("Data is required !");
@@ -46,7 +70,7 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult UpdateBrewery(int id, [FromBody]BreweryData data)
+        public IHttpActionResult UpdateBrewery(int id, [FromBody] BreweryData data)
         {
             if (data is null)
                 return BadRequest("Data is required !");
@@ -67,7 +91,7 @@ namespace Demo_API_Intro.Controllers
             }
         }
 
-        [HttpDelete] 
+        [HttpDelete]
         public IHttpActionResult DeleteBrewery(int id)
         {
             bool isDeleted = BreweryService.Instance.Delete(id);
