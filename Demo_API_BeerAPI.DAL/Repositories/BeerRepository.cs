@@ -64,5 +64,54 @@ namespace Demo_API_BeerAPI.DAL.Repositories
                 IdBrand = Convert.IsDBNull(reader["Id_Brand"]) ? null : (int?)Convert.ToInt32(reader["Id_Brand"]),
             };
         }
+
+
+        #region Manage "Many to Many" between Category and Beer
+        public IEnumerable<BeerEntity> GetByCategory(IEnumerable<int> idsCategory, int offset, int limit)
+        {
+            if (idsCategory.Count() == 0)
+                return new List<BeerEntity>();
+
+            string filterCategory = String.Join(", ", idsCategory);
+
+            QueryDB query = new QueryDB("SELECT DISTINCT B.*  " +
+                                        "FROM [Beer] B " +
+                                        "   JOIN [BeerCategory] BC ON B.Id_Beer = BC.Id_Beer " +
+                                       $"WHERE BC.Id_Category IN ({filterCategory}) " +
+                                        "ORDER BY B.Name ASC " +
+                                        "OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY");
+            query.AddParametre("@offset", offset);
+            query.AddParametre("@limit", limit);
+
+            return ConnectDB.ExecuteReader(query, ConvertDataReaderToEntity);
+        }
+
+        public bool AddBeerCategory(int idCategory, int idBeer)
+        {
+            // TODO : Use stored procedure
+            QueryDB queryCheck = new QueryDB("SELECT Count(*) FROM [BeerCategory] WHERE Id_Category = @IdCat AND Id_Beer =  @IdBeer");
+            queryCheck.AddParametre("@IdCat", idCategory);
+            queryCheck.AddParametre("@IdBeer", idBeer);
+
+            if ((int)ConnectDB.ExecuteScalar(queryCheck) != 0)
+                return false;
+
+
+            QueryDB query = new QueryDB("INSERT INTO [BeerCategory] (Id_Category, Id_Beer) VALUES (@IdCat, @IdBeer);");
+            query.AddParametre("@IdCat", idCategory);
+            query.AddParametre("@IdBeer", idBeer);
+
+            return ConnectDB.ExecuteNonQuery(query) == 1;
+        }
+
+        public bool RemoveBeerCategory(int idCategory, int idBeer)
+        {
+            QueryDB query = new QueryDB("DELETE FROM [BeerCategory] WHERE Id_Category = @IdCat AND Id_Beer= @IdBeer;");
+            query.AddParametre("@IdCat", idCategory);
+            query.AddParametre("@IdBeer", idBeer);
+
+            return ConnectDB.ExecuteNonQuery(query) == 1;
+        }
+        #endregion
     }
 }

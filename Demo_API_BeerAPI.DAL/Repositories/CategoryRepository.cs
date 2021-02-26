@@ -13,7 +13,7 @@ namespace Demo_API_BeerAPI.DAL.Repositories
 {
     public class CategoryRepository : RepositoryBase<int, CategoryEntity>
     {
-        public CategoryRepository() : base("Category", "Id_Category") 
+        public CategoryRepository() : base("Category", "Id_Category")
         { }
 
 
@@ -22,7 +22,7 @@ namespace Demo_API_BeerAPI.DAL.Repositories
             QueryDB query = new QueryDB("InsertCategory", true);
             query.AddParametre("@Name", entity.Name);
 
-            return (int) ConnectDB.ExecuteScalar(query);
+            return (int)ConnectDB.ExecuteScalar(query);
         }
 
         public override bool Update(int id, CategoryEntity entity)
@@ -49,5 +49,18 @@ namespace Demo_API_BeerAPI.DAL.Repositories
                 Name = reader["Name"].ToString()
             };
         }
+
+
+        #region Manage "Many to Many" between Category and Beer
+        public IEnumerable<CategoryEntity> GetBeerCategories(int idBeer)
+        {
+            QueryDB query = new QueryDB("SELECT * " +
+                                       $"FROM [Category] C JOIN [BeerCategory] BC ON C.Id_category = BC.Id_category " +
+                                        "WHERE [Id_Beer] = @IdBeer");
+            query.AddParametre("@IdBeer", idBeer);
+
+            return ConnectDB.ExecuteReader(query, ConvertDataReaderToEntity);
+        }
+        #endregion
     }
 }
