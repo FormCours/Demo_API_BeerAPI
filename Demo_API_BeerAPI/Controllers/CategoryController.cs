@@ -1,4 +1,5 @@
 ﻿using Demo_API_Intro.Models;
+using Demo_API_Intro.ModelsAPI;
 using Demo_API_Intro.ServiceData;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,9 @@ namespace Demo_API_Intro.Controllers
         [HttpGet]
         public IHttpActionResult FindAll()
         {
-            IEnumerable<Category> categories = CategoryService.Instance.GetAll();
+            List<Category> categories = CategoryService.Instance.GetAll().ToList();
 
-            return Json(categories);
+            return Json(new CollectionResponseAPI(categories.Count, categories));
         }
 
 
