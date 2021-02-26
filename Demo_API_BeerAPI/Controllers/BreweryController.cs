@@ -1,4 +1,5 @@
 ﻿using Demo_API_Intro.Models;
+using Demo_API_Intro.ModelsAPI;
 using Demo_API_Intro.ServiceData;
 using System;
 using System.Collections.Generic;
@@ -12,34 +13,22 @@ namespace Demo_API_Intro.Controllers
     [RoutePrefix("api/Brewery")]
     public class BreweryController : ApiController
     {
-        [HttpGet]
-        [Route("")]
-        public IHttpActionResult FindAll()
-        {
-            IEnumerable<Brewery> breweries = BreweryService.Instance.GetAll();
-            int totalBrewery = BreweryService.Instance.GetTotalBrewery();
+        // [HttpGet]
+        // public IHttpActionResult FindAll()
+        // {
+        //     IEnumerable<Brewery> breweries = BreweryService.Instance.GetAll();
+        //     int totalBrewery = BreweryService.Instance.GetTotalBrewery();
 
-            // TODO Add Model for this
-            return Json(new
-            {
-                total = totalBrewery,
-                results = breweries
-            });
-        }
+        //     return Json(new CollectionResponseAPI(totalBrewery, breweries));
+        // }
 
         [HttpGet]
-        [Route("page")]
-        public IHttpActionResult FindWithPagination([FromUri] int offset, [FromUri] int limit)
+        public IHttpActionResult FindWithPagination([FromUri] PaginationParameter parameter)
         {
-            IEnumerable<Brewery> breweries = BreweryService.Instance.GetPagination(offset, limit);
+            IEnumerable<Brewery> breweries = BreweryService.Instance.GetPagination(parameter.Offset, parameter.Limit);
             int totalBrewery = BreweryService.Instance.GetTotalBrewery();
 
-            // TODO Add Model for this
-            return Json(new
-            {
-                total = totalBrewery,
-                results = breweries
-            });
+            return Json(new CollectionResponseAPI(totalBrewery, breweries));
         }
 
 
