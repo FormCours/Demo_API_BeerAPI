@@ -37,7 +37,13 @@ namespace Demo_API_Intro.Controllers
         [Route("GetByCategories")]
         public IHttpActionResult FindBeerByCategories([FromUri] PaginationParameter parameter, [FromUri] string[] categories)
         {
-            throw new NotImplementedException();
+            IEnumerable<Category> selectedCategory = CategoryService.Instance.GetAll()
+                                                        .Where(sc => categories.Any(c => c.ToLower() == sc.Name.ToLower()));
+
+            IEnumerable<Beer> beers = BeerService.Instance.GetByCategories(selectedCategory, parameter.Offset, parameter.Limit);
+            int totalBeer = BeerService.Instance.GetTotalBrand();
+
+            return Json(new CollectionResponseAPI(totalBeer, beers));
         }
 
         [HttpPost]
@@ -76,7 +82,8 @@ namespace Demo_API_Intro.Controllers
                 return BadRequest("Data is required !");
 
             Beer originalData = BeerService.Instance.GetOne(id);
-            if(originalData is null) {
+            if (originalData is null)
+            {
                 return BadRequest("An error occurred during the request");
             }
 
@@ -116,14 +123,40 @@ namespace Demo_API_Intro.Controllers
         [Route("{id}/AddCategory/{idCategory}")]
         public IHttpActionResult AddCategory(int id, int idCategory)
         {
-            throw new NotImplementedException();
+            Beer target = BeerService.Instance.GetOne(id);
+            Category category = CategoryService.Instance.GetOne(idCategory);
+
+            if (target is null || category is null)
+                return BadRequest("Invalid object !");
+
+            if (target.Categories.Any(b => b.Id == idCategory))
+                return BadRequest("The category is already added !");
+
+
+            bool isAdded = BeerService.Instance.AddCategory(idCategory, id);
+
+            if (isAdded)
+                return Ok();
+
+            return BadRequest();
         }
 
         [HttpPost]
         [Route("{id}/RemoveCategory/{idCategory}")]
         public IHttpActionResult RemoveCategory(int id, int idCategory)
         {
-            throw new NotImplementedException();
+            Beer target = BeerService.Instance.GetOne(id);
+            Category category = CategoryService.Instance.GetOne(idCategory);
+
+            if (target is null || category is null)
+                return BadRequest("Invalid object !");
+
+            bool isRemoved = BeerService.Instance.RemoveCategory(idCategory, id);
+
+            if (isRemoved)
+                return Ok();
+
+            return BadRequest();
         }
     }
 }

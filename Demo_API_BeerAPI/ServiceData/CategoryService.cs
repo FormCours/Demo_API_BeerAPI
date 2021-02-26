@@ -71,5 +71,17 @@ namespace Demo_API_Intro.ServiceData
 
             return isDeleted;
         }
+
+
+        #region Link bewteen Beer and Category
+        public IEnumerable<Category> GetCategoriesOfBeer(int idBeer)
+        {
+            return categoryRepository.GetBeerCategories(idBeer).Select(c => new Category()
+            {
+                Id = c.Id,
+                Name = c.Name
+            });
+        }
+        #endregion
     }
 }

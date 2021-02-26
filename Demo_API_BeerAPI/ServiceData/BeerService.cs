@@ -44,6 +44,14 @@ namespace Demo_API_Intro.ServiceData
             return beerDB is null ? null : ConvertBeerDB(beerDB);
         }
 
+        public IEnumerable<Beer> GetByCategories(IEnumerable<Category> categories, int offset, int limit)
+        {
+            if (categories.Count() == 0)
+                return new List<Beer>();
+
+            return beerRepository.GetByCategory(categories.Select(c => c.Id), offset, limit).Select(b => ConvertBeerDB(b));
+        }
+
         public int Add(BeerData beerData)
         {
             int newId = beerRepository.Insert(new Demo_API_BeerAPI.DAL.Entities.BeerEntity()
@@ -77,11 +85,24 @@ namespace Demo_API_Intro.ServiceData
             return beerRepository.Delete(id);
         }
 
+
+        public bool AddCategory(int idCategory, int idBeer)
+        {
+            return beerRepository.AddBeerCategory(idCategory, idBeer);
+        }
+
+        public bool RemoveCategory(int idCategory, int idBeer)
+        {
+            return beerRepository.RemoveBeerCategory(idCategory, idBeer);
+        }
+
+
         #region Mapper
         private Beer ConvertBeerDB(Demo_API_BeerAPI.DAL.Entities.BeerEntity beerDB)
         {
             Brewery brewery = BreweryService.Instance.GetOne(beerDB.IdBrewery);
             Brand brand = beerDB.IdBrand is null ? null : BrandService.Instance.GetOne((int)beerDB.IdBrand);
+            IEnumerable<Category> categories = CategoryService.Instance.GetCategoriesOfBeer(beerDB.Id);
 
             return new Beer()
             {
@@ -91,7 +112,7 @@ namespace Demo_API_Intro.ServiceData
                 Degree = beerDB.Degree,
                 Brewery = brewery,
                 Brand = brand,
-                Categories = new List<Category>()
+                Categories = categories
             };
         }
         #endregion
