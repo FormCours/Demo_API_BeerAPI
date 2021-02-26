@@ -35,6 +35,23 @@ namespace Demo_API_BeerAPI.DAL.Repositories
             return (int)ConnectDB.ExecuteScalar(query);
         }
 
+        public virtual IEnumerable<TEntity> GetPagination(int offset, int limit)
+        {
+            return GetPagination(offset, limit, IdName);
+        }
+
+        protected IEnumerable<TEntity> GetPagination(int offset, int limit, string orderColumn)
+        {
+            QueryDB query = new QueryDB($"SELECT * FROM [{TableName}] " +
+                                        $"ORDER BY [{orderColumn}] ASC " +
+                                        "OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY");
+            query.AddParametre("@offset", offset);
+            query.AddParametre("@limit", limit);
+
+            return ConnectDB.ExecuteReader(query, ConvertDataReaderToEntity);
+        }
+
+
         public virtual TEntity Get(TKey id)
         {
             QueryDB query = new QueryDB($"SELECT * FROM [{TableName}] WHERE [{IdName}] = @Id");
