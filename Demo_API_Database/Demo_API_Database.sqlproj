@@ -58,6 +58,7 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="Scripts" />
+    <Folder Include="Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Category.sql" />
@@ -65,6 +66,14 @@
     <Build Include="Tables\Brand.sql" />
     <Build Include="Tables\Brewery.sql" />
     <Build Include="Tables\BeerCategory.sql" />
+    <Build Include="Procedures\InsertBeer.sql" />
+    <Build Include="Procedures\InsertBrand.sql" />
+    <Build Include="Procedures\InsertBrewery.sql" />
+    <Build Include="Procedures\InsertCategory.sql" />
+    <Build Include="Procedures\UpdateBeer.sql" />
+    <Build Include="Procedures\UpdateBrand.sql" />
+    <Build Include="Procedures\UpdateBrewery.sql" />
+    <Build Include="Procedures\UpdateCategory.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
