@@ -1,4 +1,5 @@
 ﻿using Demo_API_Intro.Models;
+using Demo_API_Intro.ModelsAPI;
 using Demo_API_Intro.ServiceData;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,12 @@ namespace Demo_API_Intro.Controllers
     public class BrandController : ApiController
     {
         [HttpGet]
-        public IHttpActionResult FindAll()
+        public IHttpActionResult FindAll([FromUri] PaginationParameter parameter)
         {
-            IEnumerable<Brand> brands = BrandService.Instance.GetAll();
+            IEnumerable<Brand> brands = BrandService.Instance.GetPagination(parameter.Offset, parameter.Limit);
+            int totalBrand = BrandService.Instance.GetTotalBrand();
 
-            return Json(brands);
+            return Json(new CollectionResponseAPI(totalBrand, brands));
         }
 
         [HttpGet]

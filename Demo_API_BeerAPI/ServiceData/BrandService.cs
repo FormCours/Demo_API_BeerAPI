@@ -16,14 +16,31 @@ namespace Demo_API_Intro.ServiceData
 
         private BrandRepository brandRepository;
 
+
         private BrandService()
         {
             brandRepository = new BrandRepository();
         }
 
+        public int GetTotalBrand()
+        {
+            return brandRepository.Count();
+        }
+
         public IEnumerable<Brand> GetAll()
         {
             return brandRepository.GetAll().Select(b => new Brand()
+            {
+                Id = b.Id,
+                Name = b.Name,
+                Country = b.Country,
+                CreationYear = b.CreationYear
+            });
+        }
+
+        public IEnumerable<Brand> GetPagination(int offset, int limit)
+        {
+            return brandRepository.GetPagination(offset, limit).Select(b => new Brand()
             {
                 Id = b.Id,
                 Name = b.Name,

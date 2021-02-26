@@ -16,6 +16,16 @@ namespace Demo_API_BeerAPI.DAL.Repositories
         public BrandRepository() : base("Brand", "Id_Brand") 
         { }
 
+        public IEnumerable<BrandEntity> GetPagination(int offset, int limit)
+        {
+            QueryDB query = new QueryDB("SELECT * FROM [Brand] " +
+                                        "ORDER BY [Name] ASC " +
+                                        "OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY");
+            query.AddParametre("@offset", offset);
+            query.AddParametre("@limit", limit);
+
+            return ConnectDB.ExecuteReader(query, ConvertDataReaderToEntity);
+        }
 
         public override int Insert(BrandEntity entity)
         {
