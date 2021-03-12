@@ -47,6 +47,7 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IHttpActionResult Insert(BeerData data)
         {
             if (data is null)
@@ -58,6 +59,7 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public IHttpActionResult FullUpdate(int id, BeerData data)
         {
             if (data is null)
@@ -76,6 +78,7 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpPatch]
+        [Authorize]
         public IHttpActionResult PartialUpdate(int id, BeerPartialData data)
         {
             if (data is null)
@@ -108,6 +111,7 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public IHttpActionResult DeleteBeer(int id)
         {
             bool isDeleted = BeerService.Instance.Delete(id);
@@ -121,6 +125,7 @@ namespace Demo_API_Intro.Controllers
 
         [HttpPost]
         [Route("{id}/AddCategory/{idCategory}")]
+        [Authorize]
         public IHttpActionResult AddCategory(int id, int idCategory)
         {
             Beer target = BeerService.Instance.GetOne(id);
@@ -143,6 +148,7 @@ namespace Demo_API_Intro.Controllers
 
         [HttpPost]
         [Route("{id}/RemoveCategory/{idCategory}")]
+        [Authorize]
         public IHttpActionResult RemoveCategory(int id, int idCategory)
         {
             Beer target = BeerService.Instance.GetOne(id);
