@@ -65,11 +65,13 @@
     <Compile Include="Entities\BrandEntity.cs" />
     <Compile Include="Entities\BreweryEntity.cs" />
     <Compile Include="Entities\CategoryEntity.cs" />
+    <Compile Include="Entities\MemberEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BeerRepository.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\BrandRepository.cs" />
     <Compile Include="Repositories\BreweryRepository.cs" />
+    <Compile Include="Repositories\MemberRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
   </ItemGroup>
   <ItemGroup>
