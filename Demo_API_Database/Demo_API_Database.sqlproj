@@ -59,6 +59,7 @@
     <Folder Include="Tables" />
     <Folder Include="Scripts" />
     <Folder Include="Procedures" />
+    <Folder Include="View" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Category.sql" />
@@ -74,6 +75,10 @@
     <Build Include="Procedures\UpdateBrand.sql" />
     <Build Include="Procedures\UpdateBrewery.sql" />
     <Build Include="Procedures\UpdateCategory.sql" />
+    <Build Include="Procedures\InsertMember.sql" />
+    <Build Include="Procedures\RetrieveMember.sql" />
+    <Build Include="View\V_Member.sql" />
+    <Build Include="Tables\Member.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
