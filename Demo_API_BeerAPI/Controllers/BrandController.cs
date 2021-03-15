@@ -10,9 +10,11 @@ using System.Web.Http;
 
 namespace Demo_API_Intro.Controllers
 {
+  [Authorize]
     public class BrandController : ApiController
     {
         [HttpGet]
+        [AllowAnonymous]
         public IHttpActionResult FindAll([FromUri] PaginationParameter parameter)
         {
             IEnumerable<Brand> brands = BrandService.Instance.GetPagination(parameter.Offset, parameter.Limit);
@@ -22,6 +24,7 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IHttpActionResult FindBrandById(int id)
         {
             Brand brand = BrandService.Instance.GetOne(id);
@@ -68,6 +71,7 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpDelete] 
+        [Authorize(Roles ="Admin")]
         public IHttpActionResult DeleteBrand(int id)
         {
             bool isDeleted = BrandService.Instance.Delete(id);

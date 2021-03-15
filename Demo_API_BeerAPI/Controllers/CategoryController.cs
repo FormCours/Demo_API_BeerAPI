@@ -34,6 +34,7 @@ namespace Demo_API_Intro.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public IHttpActionResult AddCategory([FromBody]CategoryData catData)
         {
             if (catData is null)
@@ -45,7 +46,8 @@ namespace Demo_API_Intro.Controllers
         }
 
 
-        [HttpDelete] 
+        [HttpDelete]
+        [Authorize(Roles ="Admin")]
         public IHttpActionResult RemoveCategory(int id)
         {
             // TODO : Error if try to remove category linked with beer !

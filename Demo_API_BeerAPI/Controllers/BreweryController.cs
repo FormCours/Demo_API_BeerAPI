@@ -44,6 +44,7 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IHttpActionResult AddNewBrewery([FromBody] BreweryData data)
         {
             if (data is null)
@@ -59,6 +60,7 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public IHttpActionResult UpdateBrewery(int id, [FromBody] BreweryData data)
         {
             if (data is null)
@@ -81,6 +83,7 @@ namespace Demo_API_Intro.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles ="Admin")]
         public IHttpActionResult DeleteBrewery(int id)
         {
             bool isDeleted = BreweryService.Instance.Delete(id);
