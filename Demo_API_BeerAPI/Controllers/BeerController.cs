@@ -50,7 +50,7 @@ namespace Demo_API_Intro.Controllers
         [Authorize]
         public IHttpActionResult Insert(BeerData data)
         {
-            if (data is null)
+            if (data is null || !ModelState.IsValid)
                 return BadRequest("Data is required !");
 
             int newId = BeerService.Instance.Add(data);
@@ -62,7 +62,7 @@ namespace Demo_API_Intro.Controllers
         [Authorize]
         public IHttpActionResult FullUpdate(int id, BeerData data)
         {
-            if (data is null)
+            if (data is null || !ModelState.IsValid)
                 return BadRequest("Data is required !");
 
             bool isUpdated = BeerService.Instance.Update(id, data);
@@ -81,7 +81,7 @@ namespace Demo_API_Intro.Controllers
         [Authorize]
         public IHttpActionResult PartialUpdate(int id, BeerPartialData data)
         {
-            if (data is null)
+            if (data is null || !ModelState.IsValid)
                 return BadRequest("Data is required !");
 
             Beer originalData = BeerService.Instance.GetOne(id);

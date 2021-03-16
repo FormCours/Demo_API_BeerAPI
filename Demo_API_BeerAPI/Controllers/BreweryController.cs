@@ -37,7 +37,7 @@ namespace Demo_API_Intro.Controllers
         {
             Brewery brewery = BreweryService.Instance.GetOne(id);
 
-            if (brewery is null)
+            if (brewery is null || !ModelState.IsValid)
                 return NotFound();
 
             return Json(brewery);
@@ -47,7 +47,7 @@ namespace Demo_API_Intro.Controllers
         [Authorize]
         public IHttpActionResult AddNewBrewery([FromBody] BreweryData data)
         {
-            if (data is null)
+            if (data is null || !ModelState.IsValid)
                 return BadRequest("Data is required !");
 
             if (BreweryService.Instance.Exists(data.Name))
@@ -63,7 +63,7 @@ namespace Demo_API_Intro.Controllers
         [Authorize]
         public IHttpActionResult UpdateBrewery(int id, [FromBody] BreweryData data)
         {
-            if (data is null)
+            if (data is null || !ModelState.IsValid)
                 return BadRequest("Data is required !");
 
             if (BreweryService.Instance.GetOne(id) is null)

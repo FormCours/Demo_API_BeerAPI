@@ -38,7 +38,7 @@ namespace Demo_API_Intro.Controllers
         [HttpPost]
         public IHttpActionResult AddNewBrand([FromBody] BrandData data)
         {
-            if (data is null)
+            if (data is null || !ModelState.IsValid)
                 return BadRequest("Data is required !");
 
             if(BrandService.Instance.Exists(data.Name))
@@ -52,7 +52,7 @@ namespace Demo_API_Intro.Controllers
         [HttpPut]
         public IHttpActionResult UpdateBrand(int id, [FromBody] BrandData data)
         {
-            if (data is null)
+            if (data is null || !ModelState.IsValid)
                 return BadRequest("Data is required !");
 
             if (BrandService.Instance.GetOne(id) is null)

@@ -37,7 +37,7 @@ namespace Demo_API_Intro.Controllers
         [Authorize(Roles ="Admin")]
         public IHttpActionResult AddCategory([FromBody]CategoryData catData)
         {
-            if (catData is null)
+            if (catData is null || !ModelState.IsValid)
                 return BadRequest("Data is required !");
 
             int newId = CategoryService.Instance.Add(catData);

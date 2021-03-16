@@ -29,7 +29,7 @@ namespace Demo_API_Intro.Controllers
         [Route("Register")]
         public IHttpActionResult Register(MemberRegister data)
         {
-            if (data is null)
+            if (data is null || !ModelState.IsValid)
                 return BadRequest();
 
             int memberId = MemberService.Instance.Add(data);
@@ -44,7 +44,7 @@ namespace Demo_API_Intro.Controllers
         [Route("Login")]
         public IHttpActionResult Login(MemberLogin data)
         {
-            if (data is null)
+            if (data is null || !ModelState.IsValid)
                 return BadRequest();
 
             Member member = MemberService.Instance.GetWithCredential(data.Email, data.Password);
